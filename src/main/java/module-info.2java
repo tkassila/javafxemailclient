@@ -1,0 +1,11 @@
+module com.metait.javafxemailclient {
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires java.mail;
+
+    opens com.metait.javafxemailclient to javafx.fxml;
+    opens com.metait.javafxemailclient.imap.gmail to javafx.fxml;
+
+    exports com.metait.javafxemailclient;
+    exports com.metait.javafxemailclient.imap.gmail;
+}

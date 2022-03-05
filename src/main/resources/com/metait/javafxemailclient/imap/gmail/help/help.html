@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Help</title>
+</head>
+<body>
+<h1>Gmail email counter application</h1>
+<h4>What it will do?</h4>
+<p>When a user is given his/her username or email address and password for a gmail email account,
+the application makes gmail email server connect and calculates how many email messages on
+different email addresses there are. And are listing result in the list constrol.</p>
+
+<h4>Purpose of the application</h4>
+<p>The result are listing at first those emails, which have most messages. By that is good to know which
+    email messages is best to search on the browser and possible to delete from a gmail email server.</p>
+
+<h4>Features</h4>
+<ul>
+    <li>When all messages are calculated, you can search some text from messages (from start, next and previous).</li>
+    <li>When you mouse clicked on a result email row, that email will be copyed into the clopboard of (Windows) OS.</li>
+    <li>You can cancel the email execution by pressing a button, when it is active.</li>
+    <li>And continue later by  loading old result from the data file (a button) and
+        pressing then a execution button.</li>
+    <li>You can show given password characters visually by pressing a checkbox.</li>
+</ul>
+
+<h4>Commmandline user parameters</h4>
+<p>java app .... -gui|-commandline -use_user_home|-donotuse_user_home [username password]</p>
+<p>See inside of javaemailclient.bat or javaemailclient.sh </p>
+
+<p><b>-gui</b> = javafx gui is starting.<p>
+<p><b>-commandline</b> = a commandline app is starting. </p>
+<p><b>use_user_home</b> = a data file will be saved into a directory of HOME or like environment (=user home). </p>
+<p><b>donotuse_user_home</b> = a data file will be saved into a directory of a application
+    installelation directory. The datafile name is: <b>emailcount.txt</b></p>
+
+</body>
+</html>
