@@ -7,100 +7,133 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="621.0" prefWidth="1040.0" spacing="3.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<!-- maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"  -->
+<VBox prefHeight="621.0" prefWidth="1040.0" spacing="3.0"
+      xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" >
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
    <children>
-      <HBox prefHeight="30.0" prefWidth="838.0" spacing="5.0">
-         <children>
-            <HBox fx:id="hboxUserName" spacing="5.0">
-               <children>
-                  <Label accessibleText="Username or email" text="Email/Username" />
-                  <TextField fx:id="textFieldUsername" accessibleHelp="Give Username or email" accessibleText="Username or email" prefHeight="25.0" prefWidth="558.0" />
-               </children>
-               <HBox.margin>
+      <BorderPane fx:id="borderPane1Top" maxWidth="1.7976931348623157E308" prefHeight="74.0" prefWidth="1000.0" VBox.vgrow="NEVER">
+         <left>
+            <BorderPane fx:id="borderPane2Top" prefHeight="102.0" prefWidth="503.0" BorderPane.alignment="TOP_LEFT">
+               <BorderPane.margin>
                   <Insets />
-               </HBox.margin>
-               <padding>
-                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-               </padding>
-            </HBox>
-         </children>
+               </BorderPane.margin>
+               <top>
+                  <BorderPane prefHeight="70.0" prefWidth="859.0" BorderPane.alignment="CENTER">
+                     <top>
+                        <HBox fx:id="hboxUserName" prefHeight="25.0" prefWidth="662.0">
+                           <BorderPane.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </BorderPane.margin>
+                           <children>
+                              <Label accessibleText="Username or email" prefHeight="18.0" prefWidth="135.0" text="Email/Username">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="textFieldUsername" accessibleHelp="Give Username or email" accessibleText="Username or email" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="379.0" />
+                           </children>
+                        </HBox>
+                     </top>
+                     <bottom>
+                        <HBox fx:id="hboxPassWord" maxWidth="-Infinity" prefHeight="25.0" prefWidth="488.0" spacing="5.0">
+                           <children>
+                              <Label accessibleText="password" prefHeight="20.0" prefWidth="126.0" text="Password" />
+                              <PasswordField fx:id="textFieldPassWord" accessibleHelp="Give password" accessibleText="password" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="374.0" />
+                           </children>
+                        </HBox>
+                     </bottom>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </BorderPane>
+               </top>
+               <bottom>
+                  <HBox fx:id="hboxSearch" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="1000.0" spacing="5.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="119.0" text="Search">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="textFieldSearch" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="368.0" />
+                     </children>
+                  </HBox>
+               </bottom>
+            </BorderPane>
+         </left>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
          <VBox.margin>
-            <Insets top="3.0" />
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>
-      </HBox>
-      <HBox prefHeight="32.0" prefWidth="1000.0" spacing="5.0">
+         <right>
+            <ScrollPane fx:id="scrollPaneTree" fitToWidth="true" maxWidth="1.7976931348623157E308" prefHeight="102.0" prefWidth="565.0" BorderPane.alignment="TOP_CENTER">
+               <content>
+                  <TreeView fx:id="treeView" editable="true" maxWidth="1.7976931348623157E308" prefHeight="101.0" prefWidth="606.0" />
+               </content>
+            </ScrollPane>
+         </right>
+      </BorderPane>
+      <FlowPane maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="NEVER">
          <children>
-            <HBox fx:id="hboxPassWord" spacing="5.0">
+            <HBox fx:id="paneExecution" fillHeight="false" maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="554.0" spacing="5.0">
                <children>
-                  <Label accessibleText="password" prefHeight="17.0" prefWidth="86.0" text="Password" />
-                  <PasswordField fx:id="textFieldPassWord" accessibleHelp="Give password" accessibleText="password" prefHeight="25.0" prefWidth="558.0" />
+                  <CheckBox fx:id="checkBoxClearResults" mnemonicParsing="false" prefHeight="21.0" prefWidth="161.0" text="Clear read results">
+                     <padding>
+                        <Insets top="3.0" />
+                     </padding></CheckBox>
+                  <Button fx:id="buttonConnect" mnemonicParsing="false" onAction="#pressedButtonConnect" prefHeight="30.0" prefWidth="141.0" text="Start read emails" />
+                  <ProgressBar fx:id="progressIndicator" prefHeight="36.0" prefWidth="114.0" progress="0.0" />
+                  <Button fx:id="buttonCancelExec" mnemonicParsing="false" onAction="#pressedBttonCancelExec" prefHeight="30.0" prefWidth="148.0" text="Cancel execution" />
                </children>
                <padding>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </padding>
             </HBox>
-         </children>
-         <VBox.margin>
-            <Insets top="3.0" />
-         </VBox.margin>
-      </HBox>
-      <HBox prefHeight="32.0" prefWidth="1000.0" spacing="5.0">
-         <children>
-            <HBox fx:id="hboxSearch" spacing="5.0">
+            <HBox fx:id="paneGroup3" fillHeight="false" maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="530.0" spacing="5.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="86.0" text="Search" />
-                  <TextField fx:id="textFieldSearch" prefHeight="25.0" prefWidth="559.0" />
-               </children>
-               <padding>
-                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-               </padding>
-            </HBox>
-            <Button fx:id="buttonHelp" mnemonicParsing="false" onAction="#pressedButtonHelp" prefHeight="25.0" prefWidth="169.0" text="Help" />
-         </children>
-         <VBox.margin>
-            <Insets top="3.0" />
-         </VBox.margin>
-      </HBox>
-      <FlowPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS">
-         <children>
-            <HBox fx:id="paneExecution" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="496.0" spacing="5.0">
-               <children>
-                  <CheckBox fx:id="checkBoxClearResults" mnemonicParsing="false" prefHeight="17.0" prefWidth="125.0" text="Clear read results" />
-                  <Button fx:id="buttonConnect" mnemonicParsing="false" onAction="#pressedButtonConnect" prefHeight="25.0" prefWidth="114.0" text="Start read emails" />
-                  <ProgressBar fx:id="progressIndicator" prefHeight="26.0" prefWidth="117.0" progress="0.0" />
-                  <Button fx:id="buttonCancelExec" mnemonicParsing="false" onAction="#pressedBttonCancelExec" prefHeight="25.0" prefWidth="116.0" text="Cancel execution" />
-               </children>
-               <padding>
-                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-               </padding>
-            </HBox>
-            <HBox fx:id="paneGroup3" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="346.0" spacing="5.0">
-               <children>
-                  <Button fx:id="buttonSearch" mnemonicParsing="false" onAction="#pressedButtonSearch" prefHeight="25.0" prefWidth="176.0" text="Start search of emails" />
-                  <Button fx:id="buttonNext" mnemonicParsing="false" onAction="#pressedButtonNext" prefHeight="25.0" prefWidth="73.0" text="Next" />
-                  <Button fx:id="buttonPrevious" mnemonicParsing="false" onAction="#pressedButtonPrevious" prefHeight="25.0" prefWidth="73.0" text="Previous" />
-               </children>
-               <padding>
-                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-               </padding>
-            </HBox>
-            <HBox fx:id="paneGroup2" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="446.0" spacing="5.0">
-               <children>
-                  <CheckBox fx:id="checkBoxShowPassword" mnemonicParsing="false" prefHeight="17.0" prefWidth="218.0" text="Show password">
+                  <Button fx:id="buttonSearch" mnemonicParsing="false" onAction="#pressedButtonSearch" prefHeight="32.0" prefWidth="176.0" text="Start search of emails" />
+                  <Button fx:id="buttonNext" mnemonicParsing="false" onAction="#pressedButtonNext" prefHeight="35.0" prefWidth="73.0" text="Next" />
+                  <Button fx:id="buttonPrevious" mnemonicParsing="false" onAction="#pressedButtonPrevious" prefHeight="34.0" prefWidth="73.0" text="Previous" />
+                  <CheckBox fx:id="checkBoxFolders" mnemonicParsing="false" onAction="#pressed_checkBoxFolders" prefHeight="20.0" prefWidth="194.0" text="Select/Use e-folders">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
                   </CheckBox>
-                  <Button fx:id="buttonReadOldResult" mnemonicParsing="false" onAction="#pressedButtonReadOldResult" prefHeight="25.0" prefWidth="261.0" text="Show old results of .txt file" />
-                  <CheckBox fx:id="checkBoxSortAfterDomainNames" layoutX="13.0" layoutY="18.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="263.0" text="Sort after domain names" />
+               </children>
+               <padding>
+                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+               </padding>
+            </HBox>
+            <HBox fx:id="paneGroup2" fillHeight="false" maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="1091.0" spacing="10.0">
+               <children>
+                  <CheckBox fx:id="checkBoxShowPassword" mnemonicParsing="false" prefHeight="20.0" prefWidth="130.0" text="Show password">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </CheckBox>
+                  <Button fx:id="buttonReadOldResult" mnemonicParsing="false" onAction="#pressedButtonReadOldResult" prefHeight="30.0" prefWidth="242.0" text="Show old results of .txt file" />
+                  <CheckBox fx:id="checkBoxSortAfterDomainNames" layoutX="13.0" layoutY="18.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="192.0" text="Sort after domain names">
+                     <padding>
+                        <Insets top="3.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin></CheckBox>
+                  <Button fx:id="buttonHelp" mnemonicParsing="false" onAction="#pressedButtonHelp" prefHeight="30.0" prefWidth="202.0" text="Help" />
                </children>
                <padding>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
@@ -108,9 +141,9 @@
             </HBox>
          </children>
       </FlowPane>
-      <HBox prefHeight="27.0" prefWidth="1000.0">
+      <HBox maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="1000.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label fx:id="labelMsg" prefHeight="27.0" prefWidth="656.0" />
+            <Label fx:id="labelMsg" maxWidth="1.7976931348623157E308" prefHeight="16.0" prefWidth="1014.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
       <ListView fx:id="listViews" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
