@@ -46,8 +46,8 @@ public class CountAndListEmailsOfAllGmailMessagesController {
     private Button buttonCancelExec;
     @FXML
     private CheckBox checkBoxShowPassword;
-    @FXML
-    private Pane panePassword;
+    // @FXML
+    // private Pane panePassword;
     @FXML
     private ListView<EmailAddressCounter> listViews;
     @FXML
@@ -82,7 +82,19 @@ public class CountAndListEmailsOfAllGmailMessagesController {
     private CheckBox checkBoxClearResults;
     @FXML
     private CheckBox checkBoxSortAfterDomainNames;
+    @FXML
+    private TreeView treeView;
+    @FXML
+    private BorderPane borderPane2Top;
+    @FXML
+    protected ScrollPane scrollPaneTree;
+    @FXML
+    private BorderPane borderPane1Top;
+    @FXML
+    private CheckBox checkBoxFolders;
 
+    private TreeItem<String> rootTreeItem = new TreeItem<>();
+    private ObservableList<TreeItem<String>> fx_messageFolders = FXCollections.observableArrayList();
     private ChangeListener buttoonPassWordChangeListener = null;
     private String java_user_home = null;
     private AtomicBoolean atomicBoolean = new AtomicBoolean();
@@ -338,6 +350,10 @@ public class CountAndListEmailsOfAllGmailMessagesController {
     @FXML
     public void initialize() {
 
+
+        rootTreeItem.setValue("Email folders:");
+        treeView.setRoot(rootTreeItem);
+
         /*
         .focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
             if (! isNowFocused) {
@@ -345,6 +361,12 @@ public class CountAndListEmailsOfAllGmailMessagesController {
             }
         })
          */
+
+        treeView.setDisable(true);
+       // borderPane2Top.prefWidthProperty().bind(borderPane1Top.widthProperty()); //
+      //  scrollPaneTree.prefWidthProperty().bind(borderPane2Top.widthProperty()); //
+        scrollPaneTree.prefWidthProperty().bind(borderPane1Top.widthProperty()); //
+        /*
         Border border = BorderRectangle.getBorderRectangleInstance(Color.GRAY, 1, 2);
         paneExecution.setBorder(border);
         border = BorderRectangle.getBorderRectangleInstance(Color.GRAY, 1, 2);
@@ -357,6 +379,8 @@ public class CountAndListEmailsOfAllGmailMessagesController {
         hboxPassWord.setBorder(border);
         border = BorderRectangle.getBorderRectangleInstance(Color.GRAY, 1, 2);
         hboxSearch.setBorder(border);
+
+         */
 
         java_user_home = m_app.getUserHome();
 
@@ -423,7 +447,7 @@ public class CountAndListEmailsOfAllGmailMessagesController {
                 if (newValue)
                 {
                     pword = textFieldPassWord.getText();
-                    panePassword.getChildren().clear();
+                    hboxPassWord.getChildren().clear();
                     if (pwTextfield == null) {
                         pwTextfield = new TextField();
                         pwTextfield.textProperty().addListener(buttoonPassWordChangeListener);
@@ -431,8 +455,8 @@ public class CountAndListEmailsOfAllGmailMessagesController {
                     pwTextfield.setPrefHeight(textFieldPassWord.getPrefHeight());
                     pwTextfield.setPrefWidth(textFieldPassWord.getPrefWidth());
                     pwTextfield.setText(textFieldPassWord.getText());
-                    panePassword.getChildren().clear();
-                    panePassword.getChildren().add(pwTextfield);
+                    hboxPassWord.getChildren().clear();
+                    hboxPassWord.getChildren().add(pwTextfield);
                 }
                 else
                 {
@@ -440,8 +464,8 @@ public class CountAndListEmailsOfAllGmailMessagesController {
                     textFieldPassWord.setPrefHeight(pwTextfield.getPrefHeight());
                     textFieldPassWord.setPrefWidth(pwTextfield.getPrefWidth());
                     textFieldPassWord.setText(pword);
-                    panePassword.getChildren().clear();
-                    panePassword.getChildren().add(textFieldPassWord);
+                    hboxPassWord.getChildren().clear();
+                    hboxPassWord.getChildren().add(textFieldPassWord);
                 }
             }
         });
@@ -540,7 +564,7 @@ public class CountAndListEmailsOfAllGmailMessagesController {
             }
         });
 
-    }
+    } // end of initialize method
 
     private String getPassWordText()
     {
@@ -604,8 +628,9 @@ public class CountAndListEmailsOfAllGmailMessagesController {
 
         buttonReadOldResult.setDisable(true);
 
-        if (checkBoxClearResults.isSelected() && hashMapEmails.size()>0)
+        if (checkBoxClearResults.isSelected() && hashMapEmails.size()>0) {
             hashMapEmails.clear();
+        }
 
         //Task for computing the Panels:
         task = new Task<Void>() {
@@ -653,6 +678,7 @@ public class CountAndListEmailsOfAllGmailMessagesController {
                                 Collections.reverse(listEmails);
                             Platform.runLater(new Runnable() {
                                 public void run() {
+                                    listitems.clear();
                                     listitems.addAll(listEmails);
                                     if (listEmails.size()>0)
                                     {
@@ -663,18 +689,40 @@ public class CountAndListEmailsOfAllGmailMessagesController {
                             updateMsg("Old datafile (" +dataFile.getAbsolutePath() +") is read and correspond statisticall messages (" +iLoopStart +") set as base to continue." );
                         }
                     }
-                    else
+                    else {
                         updateMsg("Execcution has started from 1 message....");
+                        Platform.runLater(new Runnable() {
+                            public void run() {
+                                listitems.clear();
+                            }
+                        });
+                    }
 
                     GmailSessionReturn gsession = null;
                     Message message;
                     Message [] messages = null;
+                    MessageFolder [] messageFolders = null;
                     boolean bHandleSomething = false;
                     gsession = m_app.getConnectSessionMessages(m_app.getGmailHot(), m_app.getMailStoreType(), textFieldUsername.getText(), getPassWordText());
                     messages = gsession.messages;
                     emailFolder = gsession.folder;
                     store = gsession.store;
+                    messageFolders = gsession.messageFolders;
 
+                    if (messageFolders != null && messageFolders.length > 0)
+                    {
+                        TreeItem<String> item ;
+                        for(MessageFolder mf : messageFolders)
+                        {
+                            if (mf == null)
+                                continue;
+                            item = new TreeItem<>();
+                            item.setValue("" + mf.folederName +" ( " +mf.iFolerEmails +")");
+                            fx_messageFolders.add(item);
+                        }
+                        rootTreeItem.getChildren().addAll(fx_messageFolders);
+                        rootTreeItem.setExpanded(true);
+                    }
                     int i = iLoopStart;
                     int n = messages.length;
                     dProgressIndicator = ((((1.0)*i)/((1.0F*n))*100.0)/100.0);
@@ -707,7 +755,7 @@ public class CountAndListEmailsOfAllGmailMessagesController {
                         bHandleSomething = true;
                         if ((i % 100) == 0) {
                             System.out.println("i: " + i);
-                            updateMsg("Handled mesage index: " +i);
+                            updateMsg("Handled message index: " +i);
                             dProgressIndicator = ((((1.0)*i)/((1.0*n))*100.0)/100.0);
                             Platform.runLater(new Runnable() {
                                 public void run() {
@@ -739,6 +787,7 @@ public class CountAndListEmailsOfAllGmailMessagesController {
                             Platform.runLater(new Runnable() {
                                 public void run() {
                                     progressIndicator.setProgress(dProgressIndicator);
+                                    listitems.clear();
                                     listitems.addAll(listEmails);
                                     if (listEmails.size()>0)
                                     {
@@ -772,6 +821,7 @@ public class CountAndListEmailsOfAllGmailMessagesController {
                             Collections.reverse(listEmails);
                             Platform.runLater(new Runnable() {
                                 public void run() {
+                                    listitems.clear();
                                     listitems.addAll(listEmails);
                                     if (listEmails.size()>0)
                                     {
@@ -782,7 +832,7 @@ public class CountAndListEmailsOfAllGmailMessagesController {
                             m_app.setHashData(hashMapEmails);
                             m_app.writeHashMapIntoFile(i);
                             atomicBoolean.set(false);
-                            updateMsg("Handled mesage index: " +i);
+                            updateMsg("Handled message index: " +i);
                         }
                         if (isCancelled())
                         {
@@ -877,6 +927,17 @@ public class CountAndListEmailsOfAllGmailMessagesController {
     {
 
     }
+
+    @FXML
+    protected void pressed_checkBoxFolders() {
+        System.out.println("pressed_checkBoxFolders");
+        if (rootTreeItem.getChildren().size() > 0)
+            if (treeView.isDisable())
+                treeView.setDisable(false);
+            else
+                treeView.setDisable(true);
+    }
+
     /* @FXML
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");

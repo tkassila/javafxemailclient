@@ -25,6 +25,7 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.NoSuchProviderException;
 
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
@@ -334,6 +335,23 @@ public class CountAndListEmailsOfAllGmailMessages extends Application {
            Folder emailFolder = store.getFolder("INBOX");
            emailFolder.open(Folder.READ_ONLY);
 
+           // ddd
+           List<MessageFolder> listMessageFolder = new ArrayList<>();
+           MessageFolder mfolder = null;
+           Folder[] folders = store.getDefaultFolder().list("*");
+           for (javax.mail.Folder folder : folders) {
+               if ((folder.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
+                   System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
+                   mfolder = new MessageFolder();
+                   mfolder.folederName = folder.getFullName();
+                   mfolder.iFolerEmails = folder.getMessageCount();
+                   listMessageFolder.add(mfolder);
+               }
+           }
+
+           MessageFolder[] messageFolders = new MessageFolder[listMessageFolder.size()];
+           messageFolders =listMessageFolder.toArray(messageFolders);
+
            // retrieve the messages from the folder in an array and print it
            Message[] messages = emailFolder.getMessages();
            System.out.println("messages.length---" + messages.length);
@@ -341,6 +359,7 @@ public class CountAndListEmailsOfAllGmailMessages extends Application {
            ret.folder = emailFolder;
            ret.messages = messages;
            ret.store = store;
+           ret.messageFolders = messageFolders;
            return ret;
    }
 
@@ -567,8 +586,15 @@ public class CountAndListEmailsOfAllGmailMessages extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+       // URL fxmlResource = CountAndListEmailsOfAllGmailMessages.class.getResource("javafxemailclient.fxml");
         // FXMLLoader fxmlLoader = new FXMLLoader(CountAndListEmailsOfAllGmailMessages.class.getResource("javafxemailclient.fxml"));
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("javafxemailclient.fxml"));
+        Class resourceClass = getClass();
+        System.out.println("resourceClass: " +resourceClass.toString());
+        URL fxmlResource = resourceClass.getResource("javafxemailclient.fxml");
+        String strPath = fxmlResource.toString();
+        System.out.println("pat fxml: " +strPath);
+        FXMLLoader fxmlLoader = new FXMLLoader(fxmlResource);
         // remove xml block from .fxml file: fx:controller="com.metait.javafxplayer.PlayerController"
         fxmlLoader.setController(controller);
         m_primaryStage = primaryStage;

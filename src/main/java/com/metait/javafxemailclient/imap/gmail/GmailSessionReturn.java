@@ -8,4 +8,5 @@ public class GmailSessionReturn {
     public Message[] messages = null;
     public Store store = null;
     public Folder folder = null;
+    public MessageFolder [] messageFolders = null;
 }
