@@ -884,12 +884,16 @@ public class CountAndListEmailsOfAllGmailMessagesController {
 //                        return null;
                     } catch (NoSuchProviderException e) {
                         e.printStackTrace();
+                        buttonConnect.setDisable(false);
+                        buttonCancelExec.setDisable(true);
                         updateMsg("Error: " +e.getMessage());
                     } catch (MessagingException e) {
                         e.printStackTrace();
+                    buttonConnect.setDisable(false);
+                    buttonCancelExec.setDisable(true);
                     updateMsg("Email error: " +e.getMessage());
                     } catch (Exception e) {
-                    e.printStackTrace();
+                        e.printStackTrace();
                 } finally {
                     //close the store and folder objects
                     emailFolder.close(false);
